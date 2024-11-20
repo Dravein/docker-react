@@ -1,0 +1,24 @@
+# Docker Compose verzió száma
+version: "3"
+# Milyen konténereket kell csinálnia ponrosabban milyen típusú konténer.
+services:
+   web:    
+    build:
+     context: . # Hol találja ahonnan fel kell építenie
+     dockerfile: Dockerfile.dev # Mi a neve a fáljnak amiből fel kell építenie az image-t.
+    # -p 8018:8018 nak felel meg CLI-be(docker run -p 8080:8080 <imageName>)
+    ports:
+      # a - egy arrayt jelent a yml fáljban. Így egyszerre több portot is tudok mappelni ha akarok.
+      - "3000:3000"
+    volumes: #Ennek felel meg a 2 paraméter -> docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app <image_id>
+      - /app/node_modules
+      - .:/app
+   # Tesztelés automatizáláshoz
+   tests:    
+    build:
+     context: . # Hol találja ahonnan fel kell építenie
+     dockerfile: Dockerfile.dev # Mi a neve a fáljnak amiből fel kell építenie az image-t.
+    volumes: #Ennek felel meg a 2 paraméter -> docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app <image_id>
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"] # A Dokcefile.dev-ben lévő Default Start Up commandot tudjuk vele átírni.
