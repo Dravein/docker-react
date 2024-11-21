@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Csumika! Learn React!
+          Csumika Feature Branch! Learn React!
         </a>
       </header>
     </div>
